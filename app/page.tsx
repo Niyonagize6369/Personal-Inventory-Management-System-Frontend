@@ -1,9 +1,9 @@
-import Image from "next/image";
+// import Image from "next/image";
+import Dashboard from "@/app/dashboard/page";
 
 export default function Home() {
-  return (
-    <div >
-      <h2>Hello World</h2>
-    </div>
-  );
+  return(
+  
+  <Dashboard />
+);
 }
