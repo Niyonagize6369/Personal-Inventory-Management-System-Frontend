@@ -41,7 +41,7 @@ const Navbar = () => {
             <Bell className="cursor-pointer text-gray-500" size={24} />
             <span
               className="absolute -top-2 -right-2 inline-flex items-center
-            justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400
+            justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-600
            rounded-full "
             >
               5
