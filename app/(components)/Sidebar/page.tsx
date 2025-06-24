@@ -1,3 +1,4 @@
+// File: app/components/Sidebar.tsx
 "use client";
 import React from "react";
 import {
@@ -38,14 +39,14 @@ const SidebarLink = ({
         className={`cursor-pointer flex items-center
         ${iscollapsed ? "justify-center py-4" : "justify-start px-8 py-4"} 
         hover:text-blue-500 hover:bg-blue-100 gap-3 
-        transition-colors ${isActive ? "bg-blue-200 text-white" : ""}
+        transition-colors ${isActive ? "bg-blue-200 text-blue-700" : ""} 
       `}
       >
         <Icon className="w-6 !text-gray-700" />
         <span
           className={`${
             iscollapsed ? "hidden" : "block"
-          }font-medium texxt-gray-700`}
+          } font-medium text-gray-700`} // Fixed typo: 'texxt' to 'text'
         >
           {label}
         </span>
