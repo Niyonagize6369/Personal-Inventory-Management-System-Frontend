@@ -1,6 +1,7 @@
-// File: app/components/Sidebar.tsx
 "use client";
-import React from "react";
+
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { setIsSidebarCollapsed } from "@/app/State/api";
 import {
   Archive,
   CircleDollarSign,
@@ -11,23 +12,23 @@ import {
   SlidersHorizontal,
   User,
 } from "lucide-react";
-import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { setisSidebarCollapsed } from "@/app/State/page";
-import { usePathname } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  iscollapsed: boolean;
+  isCollapsed: boolean;
 }
 
 const SidebarLink = ({
   href,
   icon: Icon,
   label,
-  iscollapsed,
+  isCollapsed,
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
@@ -36,17 +37,20 @@ const SidebarLink = ({
   return (
     <Link href={href}>
       <div
-        className={`cursor-pointer flex items-center
-        ${iscollapsed ? "justify-center py-4" : "justify-start px-8 py-4"} 
-        hover:text-blue-500 hover:bg-blue-100 gap-3 
-        transition-colors ${isActive ? "bg-blue-200 text-blue-700" : ""} 
-      `}
+        className={`cursor-pointer flex items-center ${
+          isCollapsed ? "justify-center py-4" : "justify-start px-8 py-4"
+        }
+        hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${
+          isActive ? "bg-blue-200 text-white" : ""
+        }
+      }`}
       >
-        <Icon className="w-6 !text-gray-700" />
+        <Icon className="w-6 h-6 !text-gray-700" />
+
         <span
           className={`${
-            iscollapsed ? "hidden" : "block"
-          } font-medium text-gray-700`} // Fixed typo: 'texxt' to 'text'
+            isCollapsed ? "hidden" : "block"
+          } font-medium text-gray-700`}
         >
           {label}
         </span>
@@ -58,89 +62,91 @@ const SidebarLink = ({
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarcollapsed
+    (state) => state.global.isSidebarCollapsed
   );
 
   const toggleSidebar = () => {
-    dispatch(setisSidebarCollapsed(!isSidebarCollapsed));
+    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   };
 
   const sidebarClassNames = `fixed flex flex-col ${
     isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"
-  }
-  bg-white transition-all duration-300
- overflow-hidden h-full shadow-md z-40`;
+  } bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
 
   return (
     <div className={sidebarClassNames}>
-      {/* Top Logo */}
+      {/* TOP LOGO */}
       <div
         className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        <div>Logo</div>
-        <h2
+        {/* <Image
+          src="https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/logo.png"
+          alt="edstock-logo"
+          width={27}
+          height={27}
+          className="rounded w-8"
+        /> */}
+        <h1
           className={`${
             isSidebarCollapsed ? "hidden" : "block"
           } font-extrabold text-2xl`}
         >
-          EStock
-        </h2>
+          ESTOCK
+        </h1>
 
         <button
-          className="md:hidden px-3 py-3 bg-gray-100 rounded-full
-      hover:bg-blue-100"
+          className="md:hidden px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
           onClick={toggleSidebar}
         >
           <Menu className="w-4 h-4" />
         </button>
       </div>
 
-      {/* links */}
-
+      {/* LINKS */}
       <div className="flex-grow mt-8">
         <SidebarLink
           href="/dashboard"
           icon={Layout}
           label="Dashboard"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
           href="/inventory"
           icon={Archive}
           label="Inventory"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
           href="/products"
           icon={Clipboard}
           label="Products"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
           href="/users"
           icon={User}
           label="Users"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
           href="/settings"
           icon={SlidersHorizontal}
           label="Settings"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
           href="/expenses"
           icon={CircleDollarSign}
           label="Expenses"
-          iscollapsed={isSidebarCollapsed}
+          isCollapsed={isSidebarCollapsed}
         />
       </div>
-      {/* footer */}
 
+      {/* FOOTER */}
       <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-10`}>
-        <p className="text-center text-xs text-gray-500">@copy 2025 EStock</p>
+        <p className="text-center text-xs text-gray-500">&copy; 2025 Estock</p>
       </div>
     </div>
   );
